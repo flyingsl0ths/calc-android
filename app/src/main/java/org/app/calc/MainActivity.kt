@@ -3,207 +3,200 @@ package org.app.calc
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.app.calc.components.ResizeableText
+import org.app.calc.components.Prompt
 import org.app.calc.components.RoundedButton
 import org.app.calc.ui.theme.CalcTheme
 
-
 class MainActivity : ComponentActivity() {
-
-    companion object {
-        const val ROW_PADDING: Int = 5
-        const val COLUMN_PADDING: Int = 5
-        const val BUTTON_PADDING: Int = 2
-
-        private fun isOp(char: Char): Boolean = "+-*/%.".find { it == char } != null
-        fun addIfNot(cs: String, char: Char): String =
-            if (isOp(cs.last())) {
-                cs.take(
-                    if (cs.length == 1) {
-                        1
-                    } else {
-                        cs.length - 1
-                    }
-                ) + char
-            } else {
-                cs + char
-            }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val buttonSpacing = 4.dp
+
         setContent {
-            var expr by remember { mutableStateOf("") }
-            var isInNumber by remember { mutableStateOf(true) }
-            var addedDot by remember {
-                mutableStateOf(false)
-            }
-
             CalcTheme {
-                Column {
-                    ResizeableText(
-                        text = expr,
-                        style = MaterialTheme.typography.displayLarge,
-                        textAlign = TextAlign.Start,
-                        color = MaterialTheme.colorScheme.primary,
-                        maxLines = 1,
+                Surface(
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Box(
                         modifier = Modifier
-                            .background(MaterialTheme.colorScheme.background)
-                            .padding(start = 25.dp, end = 25.dp, top = 50.dp, bottom = 25.dp)
-                            .width(200.dp)
-                            .height(100.dp)
-                    )
+                            .fillMaxSize()
+                            .padding(10.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.BottomCenter),
+                            verticalArrangement = Arrangement.spacedBy(buttonSpacing),
+                        ) {
+                            Prompt(resultText = "10", prompt = "5 + 5")
 
-                    Spacer(
-                        modifier = Modifier
-                            .height(10.dp)
-                            .fillMaxWidth()
-                            .background(color = MaterialTheme.colorScheme.background)
-                    )
+                            Spacer(modifier = Modifier.padding(15.dp))
 
-                    Surface(modifier = Modifier.fillMaxSize()) {
-                        Column(modifier = Modifier.padding(COLUMN_PADDING.dp)) {
-                            Row(modifier = Modifier.padding(ROW_PADDING.dp)) {
-                                RoundedButton(label = "AC", BUTTON_PADDING) { expr = "" }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                            ) {
                                 RoundedButton(
-                                    label = "%",
-                                    BUTTON_PADDING
-                                ) {
-                                    expr = addIfNot(expr, '%')
-                                    isInNumber = false
-                                    addedDot = false
-                                }
+                                    text = "AC",
+                                    modifier = Modifier
+                                        .aspectRatio(2f)
+                                        .weight(2f)
+                                )
                                 RoundedButton(
-                                    label = "/", BUTTON_PADDING
-                                ) {
-                                    expr = addIfNot(expr, '/')
-                                    isInNumber = false
-                                    addedDot = false
-                                }
+                                    text = "(",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = ")",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "<|",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
                             }
 
-                            Row(modifier = Modifier.padding(ROW_PADDING.dp)) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                            ) {
                                 RoundedButton(
-                                    label = "1",
-                                    BUTTON_PADDING + 2
-                                ) {
-                                    expr += "1"
-                                    isInNumber = true
-                                }
-                                RoundedButton(label = "2", BUTTON_PADDING + 2) {
-                                    expr += "2"
-                                    isInNumber = true
-                                }
-                                RoundedButton(label = "3", BUTTON_PADDING + 2) {
-                                    expr += "3"
-                                    isInNumber = true
-                                }
+                                    text = "7",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
                                 RoundedButton(
-                                    label = "+", BUTTON_PADDING + 2
-                                ) {
-                                    expr =
-                                        addIfNot(expr, '+')
-
-                                    isInNumber = false
-                                    addedDot = false
-                                }
+                                    text = "8",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "9",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "x",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
                             }
 
-                            Row(modifier = Modifier.padding(ROW_PADDING.dp)) {
-                                RoundedButton(label = "4", BUTTON_PADDING + 2) {
-                                    expr += "4"
-
-                                    isInNumber = true
-                                }
-                                RoundedButton(label = "5", BUTTON_PADDING + 2) {
-                                    expr += "5"
-                                    isInNumber = true
-                                }
-                                RoundedButton(label = "6", BUTTON_PADDING + 2) {
-                                    expr += "6"
-                                    isInNumber = true
-                                }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                            ) {
                                 RoundedButton(
-                                    label = "-", BUTTON_PADDING + 2
-                                ) {
-                                    expr =
-                                        addIfNot(expr, '-')
-
-                                    isInNumber = false
-                                    addedDot = false
-                                }
+                                    text = "4",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "5",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "6",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "-",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
                             }
 
-                            Row(modifier = Modifier.padding(ROW_PADDING.dp)) {
-                                RoundedButton(label = "7", BUTTON_PADDING + 2) {
-                                    expr += "7"
-                                    isInNumber = true
-                                }
-                                RoundedButton(label = "8", BUTTON_PADDING + 2) {
-                                    expr += "8"
-                                    isInNumber = true
-                                }
-                                RoundedButton(label = "9", BUTTON_PADDING + 2) {
-                                    expr += "9"
-                                    isInNumber = true
-                                }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                            ) {
                                 RoundedButton(
-                                    label = "*", BUTTON_PADDING + 2
-                                ) {
-
-                                    expr =
-                                        addIfNot(expr, '*')
-
-                                    isInNumber = false
-
-                                    addedDot = false
-                                }
+                                    text = "1",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "2",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "3",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "+",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
                             }
 
-                            Row(modifier = Modifier.padding(ROW_PADDING.dp)) {
-                                RoundedButton(label = "0", BUTTON_PADDING + 2) {
-                                    expr += "0"
-                                    isInNumber = true
-                                }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                            ) {
                                 RoundedButton(
-                                    label = ".", BUTTON_PADDING + 2
-                                ) {
-                                    if (isInNumber && !addedDot) {
-                                        expr =
-                                            addIfNot(expr, '.')
-
-                                        addedDot = true
-                                    }
-                                }
-                                RoundedButton(label = "<=", BUTTON_PADDING + 2) {
-                                    if (expr.isNotEmpty()) {
-                                        expr = expr.take(expr.length - 1)
-                                    }
-                                }
-                                RoundedButton(label = "=", BUTTON_PADDING + 2)
+                                    text = "0",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = ".",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "=",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "/",
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
                             }
                         }
                     }
-                }
 
+                }
             }
         }
     }
