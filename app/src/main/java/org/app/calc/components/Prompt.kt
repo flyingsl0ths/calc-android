@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import org.app.calc.ui.theme.CalcTheme
 
 @Composable
-fun Prompt(resultText: String, prompt: String) {
+fun Prompt(resultText: String, prompt: String, hadError: Boolean) {
     Column(
         modifier = Modifier
             .padding(20.dp),
@@ -28,8 +28,9 @@ fun Prompt(resultText: String, prompt: String) {
     ) {
         Text(
             text = resultText,
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.displayLarge,
+            color = if (hadError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+            style = if (hadError) MaterialTheme.typography.displaySmall else MaterialTheme.typography.displayLarge,
+            maxLines = 1
         )
         Spacer(
             modifier = Modifier
@@ -40,7 +41,8 @@ fun Prompt(resultText: String, prompt: String) {
         )
         Text(
             text = prompt, color = MaterialTheme.colorScheme.secondary,
-            style = MaterialTheme.typography.displaySmall
+            style = MaterialTheme.typography.displaySmall,
+            maxLines = 1
         )
     }
 }
@@ -55,7 +57,7 @@ fun Prompt(resultText: String, prompt: String) {
 fun PreviewPrompt() {
     CalcTheme {
         Surface {
-            Prompt("10", "5 + 5")
+            Prompt("10", "5 + 5", false)
         }
     }
 }
