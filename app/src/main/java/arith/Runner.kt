@@ -138,7 +138,7 @@ private fun organize(lexer: Lexer): Either<Error, MutableList<Token>> {
 
         parser = onTokenType(parser, token)
 
-        if (parser.hadError() || wasEmpty(next)) {
+        if (parser.hadError()) {
             break
         }
 
@@ -183,25 +183,9 @@ private fun onTokenType(parser: Parser, token: Token): Parser {
         TokenType.Comma -> onComma(parser)
 
         TokenType.LeftParen -> copy.let {
-            var result = it
-            if (it.output.isNotEmpty() && it.output.last().type == TokenType.Number) {
-                result = onOp(
-                    parser,
-                    Token(
-                        "*",
-                        TokenType.Star,
-                        token.column,
-                        Precedence.Factor,
-                        true,
-                        Binary<Double> { left, right ->
-                            left * right
-                        })
-                )
-            }
+            it.operators.add(token)
 
-            result.operators.add(token)
-
-            result
+            it
         }
 
 

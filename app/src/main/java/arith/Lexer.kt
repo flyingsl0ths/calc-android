@@ -60,7 +60,8 @@ val Functions: Map<String, Func> =
 
         mapOf(
             "!" to Func({ args: List<Double> ->
-                fun factorial(n: Result): Double = if (n.toInt() == 1) 1.0 else (n * factorial(n - 1))
+                fun factorial(n: Result): Double =
+                    if (n.toInt() == 1) 1.0 else (n * factorial(n - 1))
                 factorial(args.first())
             } to 1u),
             "-" to Func({ args: List<Double> ->
@@ -85,13 +86,13 @@ val Functions: Map<String, Func> =
             "log10" to Func({ args: List<Double> -> log10(args.first()) } to 1u),
             "rad" to Func({ args: List<Double> -> Math.toRadians(args.first()) } to 1u),
             "round" to Func({ args: List<Double> -> round(args.first()) } to 1u),
-            "sec"   to Func({ args: List<Double> -> reciprocal(cos(args.first())) } to 1u),
-            "sin"   to Func({ args: List<Double> -> sin(args.first()) } to 1u),
-            "sinh"  to Func({ args: List<Double> -> sinh(args.first()) } to 1u),
-            "sqrt"  to Func({ args: List<Double> -> sqrt(args.first()) } to 1u),
-            "tan"   to Func({ args: List<Double> -> tan(args.first()) } to 1u),
-            "tanh"  to Func({ args: List<Double> -> tanh(args.first()) } to 1u),
-            "deg"   to Func({ args: List<Double> -> Math.toDegrees(args.first()) } to 1u),
+            "sec" to Func({ args: List<Double> -> reciprocal(cos(args.first())) } to 1u),
+            "sin" to Func({ args: List<Double> -> sin(args.first()) } to 1u),
+            "sinh" to Func({ args: List<Double> -> sinh(args.first()) } to 1u),
+            "sqrt" to Func({ args: List<Double> -> sqrt(args.first()) } to 1u),
+            "tan" to Func({ args: List<Double> -> tan(args.first()) } to 1u),
+            "tanh" to Func({ args: List<Double> -> tanh(args.first()) } to 1u),
+            "deg" to Func({ args: List<Double> -> Math.toDegrees(args.first()) } to 1u),
             "floor" to Func({ args: List<Double> -> floor(args.first()) } to 1u),
             "nroot" to
                     Func({ args: List<Double> ->
@@ -99,8 +100,6 @@ val Functions: Map<String, Func> =
                     } to 2u)
         )
     }
-
-fun wasEmpty(lexer: Lexer): Boolean = !lexer.reachedEnd && lexer.column == 0u && lexer.source.isEmpty()
 
 fun lex(lexer: Lexer): Pair<Token, Lexer> {
     if (lexer.source.isEmpty()) {
@@ -202,13 +201,18 @@ private fun parse(lexer: Lexer, isUnaryMinus: Boolean): Pair<String, TokenType> 
 private inline fun isNotExpFunctions(source: String): Boolean {
     val length = source.length
 
-    return (length >= "exp".length && source.take("exp".length) != "exp") || (length >= "exp2".length && source.take("exp2".length) != "exp2")
+    return (length >= "exp".length && source.take("exp".length) != "exp") || (length >= "exp2".length && source.take(
+        "exp2".length
+    ) != "exp2")
 }
 
 private fun parseFunction(lexer: Lexer) =
     when (lexer.source.lowercase().first()) {
         'a' ->
-            findFunctionName(listOf("abs", "acos", "acot", "acsc", "asec", "asin", "atan"), lexer.source)
+            findFunctionName(
+                listOf("abs", "acos", "acot", "acsc", "asec", "asin", "atan"),
+                lexer.source
+            )
 
         'c' ->
             findFunctionName(listOf("ceil", "cosh", "cos", "cot", "csc"), lexer.source)
