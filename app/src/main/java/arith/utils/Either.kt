@@ -4,7 +4,7 @@ sealed interface Either<out L, out R>
 
 data class Left<out T>(val value: T) : Either<T, Nothing>
 
- class Right<out T>(val value: T) : Either<Nothing, T>
+data class Right<out T>(val value: T) : Either<Nothing, T>
 
 inline fun <T> left(value: T): Left<T> = Left(value)
 
