@@ -103,6 +103,33 @@ class MainActivity : ComponentActivity() {
                                         .weight(1f)
                                 )
                                 RoundedButton(
+                                    text = "\u03C0",
+                                    onClick = {
+                                        prompt += "pi"
+                                    },
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "e",
+                                    onClick = {
+                                        prompt += "e"
+                                    },
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
+                                    text = "!",
+                                    onClick = {
+                                        prompt += "!"
+                                    },
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .weight(1f)
+                                )
+                                RoundedButton(
                                     text = "<|",
                                     onClick = {
                                         if (prompt.isNotEmpty()) {
